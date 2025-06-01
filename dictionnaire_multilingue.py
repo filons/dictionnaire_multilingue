@@ -1,17 +1,20 @@
 
+import json
 class dictionnaireMultilingue:
     def __init__(self):
         self.dictionnaire={}
+        self.fichier_par_defaut='dictionnaire.json'
+        self.charger_dictionnaire()
     
     def ajouter_mot(self,mot,langue,traduction):
         
         if mot not in self.dictionnaire:
             self.dictionnaire[mot]={}
-        else :
-            self.dictionnaire[mot][langue]=traduction
+        if langue not in self.dictionnaire[mot]:
+            self.dictionnaire[mot][langue] = traduction
+        self.dictionnaire[mot][langue]=traduction
 
     def supprimer_mot(self,mot):
-        
         if mot in self.dictionnaire:
             del self.dictionnaire[mot]
             print("suppression avec succes !")
@@ -20,7 +23,10 @@ class dictionnaireMultilingue:
 
     def rechercher(self,mot):
         if mot in self.dictionnaire:
-            return print(f"mot trouve : {mot} ")
+            print(f"mot trouve : {mot} ")
+            self.dictionnaire[mot].items()
+            for langue, traduction in self.dictionnaire[mot].items():
+                print(f"{langue} : {traduction}")
         else :
             print ("aucun mot trouver ")
 
@@ -37,7 +43,24 @@ class dictionnaireMultilingue:
             print(f"mot : {mot}")
             for langue , traduction in traductions.items():
                 print(f"{langue} : {traduction}")
-    
+    def sauvergarder_dictionnaire(self):
+        try:
+            with open(self.fichier_par_defaut, 'w', encoding='utf-8') as file:
+                json.dump(self.dictionnaire, file, ensure_ascii=False, indent=4)
+            print(f"Dictionnaire sauvegardé avec succès dans le fichier '{self.fichier_par_defaut}'")
+        except Exception as e:
+            print(f"Erreur lors de la sauvegarde : {e}")
+    def charger_dictionnaire(self):
+        try:
+            with open(self.fichier_par_defaut, 'r', encoding='utf-8') as file:
+                self.dictionnaire = json.load(file)
+            print(f"Dictionnaire chargé avec succès depuis le fichier '{self.fichier_par_defaut}'")
+        except FileNotFoundError:
+            print(f"Fichier '{self.fichier_par_defaut}' introuvable. Un nouveau dictionnaire sera créé.")
+            self.dictionnaire = {}
+        except Exception as e:
+            print(f"Erreur lors du chargement du dictionnaire : {e}")
+            self.dictionnaire = {}
 def main():
         dictionnaires=dictionnaireMultilingue()
         while True : 
@@ -47,7 +70,9 @@ def main():
             print("3. traduire un mot ")
             print("4. Afficher le dictionnaire ")
             print("5. supprimer un mot  ")
-            print("6. quitter ")
+            print("6. sauvegarder le dictionnaire ")
+            print("7. quitter le programme ")
+            print("\n")
 
             selection=int(input(" entrer votre choix : "))
             if selection == 1 : 
@@ -73,6 +98,9 @@ def main():
                 )
 
             if selection==6:
+                dictionnaires.sauvergarder_dictionnaire()
+            if selection==7:
+                print("Au revoir !")
                 break
     
 if __name__=="__main__":
