@@ -35,7 +35,7 @@ class dictionnaireMultilingue:
         if mot in self.dictionnaire and langue in self.dictionnaire[mot]:
             return self.dictionnaire[mot][langue]
         else:
-            print("le mot de se trouve pas dans le dictionnaire")
+            print("le mot ne se trouve pas dans le dictionnaire")
         
     def afficher_dictionnaire(self):
         print("    DICTIONNAIRES\n")
@@ -64,7 +64,7 @@ class dictionnaireMultilingue:
 def main():
         dictionnaires=dictionnaireMultilingue()
         while True : 
-            print("Menu\n")
+            print("****Menu****\n")
             print("1. Ajouter un mot ")
             print("2. rechercher un mot ")
             print("3. traduire un mot ")
