@@ -1,4 +1,3 @@
-
 import json
 class dictionnaireMultilingue:
     def __init__(self):
@@ -24,7 +23,6 @@ class dictionnaireMultilingue:
     def rechercher(self,mot):
         if mot in self.dictionnaire:
             print(f"mot trouve : {mot} ")
-            self.dictionnaire[mot].items()
             for langue, traduction in self.dictionnaire[mot].items():
                 print(f"{langue} : {traduction}")
         else :
